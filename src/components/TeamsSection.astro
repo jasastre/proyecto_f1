@@ -1,0 +1,65 @@
+<section class="landing-section bg-gray-200 relative overflow-hidden">
+    <div class="pt-20 h-auto px-2 mx-12">
+        <h1 class="text-black font-extrabold text-6xl">Equipos de F1 2024</h1>
+
+        <div
+            class="my-6"
+            id="teams-gap"
+        >
+            <!-- Tarjetas de pilotos -->
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "fea700892e614ca1790bf55aedcb7bfc";
+        fetch(
+            `https://v1.formula-1.api-sports.io/rankings/teams?season=2024`,
+            {
+                method: "GET",
+                headers: {
+                    "x-rapidapi-host": "v1.formula-1.api-sports.io",
+                    "x-rapidapi-key": API_KEY,
+                },
+            },
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                // Obtén la lista de pilotos del objeto JSON
+                const teams = data.response;
+
+                // Mapea los datos para obtener la posición y el nombre de cada piloto
+                const teamList = teams.map((team) => {
+                    return `
+                        <div class="bg-white overflow-hidden shadow-md rounded-lg p-4 flex-grow max-w-[426px] transition-transform hover:scale-105">
+                            <div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-5xl font-extrabold">${team.position}</span>
+                                    <div>
+                                        <div class="ml-auto text-right">
+                                            <span class="text-3xl font-medium">${team.points}</span>
+                                        </div>
+                                        <span class="text-2xl font-bold bg-gray-800 rounded text-white px-1.5">PTS</span>
+                                    </div>
+                                </div>
+                                <hr class="my-2">
+                                <div class="flex justify-between items-center">
+                                    <h2 class="text-2xl font-semibold"><strong>${team.team.name}</strong></h2>
+                                    <img src="${team.team.logo}" alt="Imagen del piloto" class="w-1/3">
+                                </div> 
+                                <hr class="my-2">
+                                <div class="flex flex-wrap justify-end">
+                                    <img src="/coches/${team.team.id}.png" alt="Coche del equipo" class="">
+                                </div>   
+                            </div>
+                        </div>`;
+                });
+
+                // Actualiza el contenido de un elemento en tu HTML con la lista de pilotos
+                const teamsListElement =
+                    document.getElementById("teams-gap");
+                teamsListElement.innerHTML = `<div id="contenedor-tarj" class="flex flex-wrap justify-start items-start gap-4">${teamList.join("")}</div>`;
+            })
+            .catch((error) => console.log("Error al obtener datos:", error));
+    </script>
+</section>

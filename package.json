@@ -1,0 +1,28 @@
+{
+  "name": "c-users-juans-documents-master-daw-full-stack-tfm-proyecto",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^3.1.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/vercel": "^7.5.4",
+    "@auth/core": "^0.18.6",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "astro": "^4.5.6",
+    "auth-astro": "^4.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.29"
+  }
+}

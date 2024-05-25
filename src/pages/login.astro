@@ -1,0 +1,20 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LandingHeader from "../components/LandingHeader.astro";
+import HeroSection from "../components/HeroSection.astro";
+import StandingsSection from "../components/StandingsSection.astro";
+import {SignIn, SignOut} from "auth-astro/components";
+
+---
+
+<Layout title="F1® España">
+	<LandingHeader />
+
+	<main class="snap-y snap-mandatory relative w-full h-screen overflow-auto">
+		<div class="snap-center mt-40 text-white">
+			<SignIn provider=google>
+                Iniciar Sesion con Google
+            </SignIn>
+		</div>
+	</main>
+</Layout>

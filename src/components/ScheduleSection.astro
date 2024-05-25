@@ -1,0 +1,91 @@
+
+<section class="landing-section bg-gray-200 relative overflow-hidden">
+    <div class="pt-20 h-auto px-2 mx-12">
+        <h1 class="text-black font-extrabold text-6xl">
+            Calendario de F1 2024
+        </h1>
+
+        <div class="my-6" id="next-races">
+            <!-- Tarjetas de pilotos -->
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "fea700892e614ca1790bf55aedcb7bfc";
+        fetch(
+            `https://v1.formula-1.api-sports.io/races?type=race&season=2024`,
+            {
+                method: "GET",
+                headers: {
+                    "x-rapidapi-host": "v1.formula-1.api-sports.io",
+                    "x-rapidapi-key": API_KEY,
+                },
+            },
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+
+                // Función para convertir el mes a su nombre
+                function getMonthName(monthNumber) {
+                    const months = [
+                        "ENE",
+                        "FEB",
+                        "MAR",
+                        "ABR",
+                        "MAY",
+                        "JUN",
+                        "JUL",
+                        "AGO",
+                        "SEP",
+                        "OCT",
+                        "NOV",
+                        "DIC",
+                    ];
+                    return months[monthNumber - 1];
+                }
+
+                // Obtén la lista de CARRERAS del objeto JSON
+                const nextraces = data.response;
+
+                // Mapea los datos para obtener la posición y el nombre de cada piloto
+                const nextraceList = nextraces.map((nextrace) => {
+                    // Extraer el día y el mes de la fecha para cada iteración
+                    const date = new Date(nextrace.date);
+                    const day = date.getDate();
+                    const month = date.getMonth() + 1; // Se suma 1 porque los meses en JavaScript son base 0
+
+                    // Convertir el mes a su nombre para cada iteración
+                    const monthName = getMonthName(month);
+
+                    return `
+            <div class="bg-white overflow-hidden shadow-md rounded-lg p-4 flex-grow max-w-[426px] transition-transform hover:scale-105">
+                <div>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="ml-auto text-right">
+                                <span class="text-3xl font-medium">${day-3}-${day}</span>
+                            </div>
+                            <span class="text-2xl font-bold bg-gray-800 rounded text-white px-1.5">${monthName}</span>
+                        </div>
+                        <img src="/banderas/${nextrace.competition.location.country}.png" alt="Bandera del pais" class="rounded-lg w-16 border-2">
+                    </div>
+                    <hr class="my-2">
+                    <h2 class="text-2xl font-semibold"><strong>${nextrace.competition.location.country}</strong></h2>
+                    <p>${nextrace.circuit.name}</p>
+                    <hr class="my-2">
+                    <div class="flex flex-wrap justify-center">
+                        <img src="/tracks/${nextrace.circuit.name}.png" alt="Imagen del circuito" class="w-56       ">
+                    </div>   
+                </div>
+            </div>`;
+                });
+
+                // Actualiza el contenido de un elemento en tu HTML con la lista de pilotos
+                const nextracesListElement =
+                    document.getElementById("next-races");
+                nextracesListElement.innerHTML = `<div id="contenedor-tarj" class="flex flex-wrap justify-start items-start gap-4">${nextraceList.join("")}</div>`;
+            })
+            .catch((error) => console.log("Error al obtener datos:", error));
+    </script>
+</section>
