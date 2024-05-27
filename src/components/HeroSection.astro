@@ -37,7 +37,40 @@
 
     <script>
         const API_KEY = "fea700892e614ca1790bf55aedcb7bfc";
-        fetch(`https://v1.formula-1.api-sports.io/rankings/races?race=1877`, {
+
+        fetch(`https://v1.formula-1.api-sports.io/races?last=1&season=2024`, {
+            method: "GET",
+            headers: {
+                "x-rapidapi-host": "v1.formula-1.api-sports.io",
+                "x-rapidapi-key": API_KEY,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Obtén la lista de pilotos del objeto JSON
+                const lasts_circuit = data.response;
+
+                // Mapea los datos para obtener la posición y el nombre de cada piloto
+                const lastCircuitCountry = lasts_circuit.map((last_circuit) => {
+                    return `${last_circuit.competition.location.country}`;
+                });
+                // Actualiza el contenido de un elemento en tu HTML con la lista de pilotos
+                const lastes_circuitElement = document.getElementById(
+                    "last-circuit-country",
+                );
+                lastes_circuitElement.innerHTML = `${lastCircuitCountry.join("")}`;
+
+                // Mapea los datos para obtener la posición y el nombre de cada piloto
+                const lastCircuitName = lasts_circuit.map((last_circuit) => {
+                    return `${last_circuit.circuit.name}`;
+                });
+                // Actualiza el contenido de un elemento en tu HTML con la lista de pilotos
+                const lastes_circuit_nameElement =
+                    document.getElementById("last-circuit-name");
+                lastes_circuit_nameElement.innerHTML = `${lastCircuitName.join("")}`;
+            })
+            .catch((error) => console.log("Error al obtener datos:", error));
+        fetch(`https://v1.formula-1.api-sports.io/rankings/races?race=1892`, {
             method: "GET",
             headers: {
                 "x-rapidapi-host": "v1.formula-1.api-sports.io",
@@ -94,39 +127,6 @@
                 // Actualiza el contenido de un elemento en tu HTML con la lista de pilotos
                 const resultsListElement = document.getElementById("last-race");
                 resultsListElement.innerHTML = `<ul>${resultList.join("")}</ul>`;
-            })
-            .catch((error) => console.log("Error al obtener datos:", error));
-
-        fetch(`https://v1.formula-1.api-sports.io/races?last=1&season=2024`, {
-            method: "GET",
-            headers: {
-                "x-rapidapi-host": "v1.formula-1.api-sports.io",
-                "x-rapidapi-key": API_KEY,
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                // Obtén la lista de pilotos del objeto JSON
-                const lasts_circuit = data.response;
-
-                // Mapea los datos para obtener la posición y el nombre de cada piloto
-                const lastCircuitCountry = lasts_circuit.map((last_circuit) => {
-                    return `${last_circuit.competition.location.country}`;
-                });
-                // Actualiza el contenido de un elemento en tu HTML con la lista de pilotos
-                const lastes_circuitElement = document.getElementById(
-                    "last-circuit-country",
-                );
-                lastes_circuitElement.innerHTML = `${lastCircuitCountry.join("")}`;
-
-                // Mapea los datos para obtener la posición y el nombre de cada piloto
-                const lastCircuitName = lasts_circuit.map((last_circuit) => {
-                    return `${last_circuit.circuit.name}`;
-                });
-                // Actualiza el contenido de un elemento en tu HTML con la lista de pilotos
-                const lastes_circuit_nameElement =
-                    document.getElementById("last-circuit-name");
-                lastes_circuit_nameElement.innerHTML = `${lastCircuitName.join("")}`;
             })
             .catch((error) => console.log("Error al obtener datos:", error));
     </script>

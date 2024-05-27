@@ -6,7 +6,6 @@
         </h1>
 
         <div class="my-6" id="next-races">
-            <!-- Tarjetas de pilotos -->
         </div>
     </div>
 
@@ -75,13 +74,12 @@
                     <p>${nextrace.circuit.name}</p>
                     <hr class="my-2">
                     <div class="flex flex-wrap justify-center">
-                        <img src="/tracks/${nextrace.circuit.name}.png" alt="Imagen del circuito" class="w-56       ">
+                        <img src="/tracks/${nextrace.circuit.name}.png" alt="Imagen del circuito" class="w-56">
                     </div>   
                 </div>
             </div>`;
                 });
 
-                // Actualiza el contenido de un elemento en tu HTML con la lista de pilotos
                 const nextracesListElement =
                     document.getElementById("next-races");
                 nextracesListElement.innerHTML = `<div id="contenedor-tarj" class="flex flex-wrap justify-start items-start gap-4">${nextraceList.join("")}</div>`;

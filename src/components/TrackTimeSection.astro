@@ -1,0 +1,231 @@
+<section
+    class="landing-section bg-gray-800 relative overflow-hidden"
+    data-header-color="white"
+>
+    <div class="relative h-full flex flex-col">
+        <header>
+            <div class="pt-20 p-4 h-auto bg-white text-black">
+                <!-- <h2
+                    class="bg-red-formula1 text-white pt-20 pb-4 text-[30px] font-medium"
+                >
+                    Directo
+                </h2> -->
+                <!-- Estado de la carrera -->
+                <div class="flex items-center space-x-2 py-1">
+                    <strong>LIVE</strong>
+                    <div class="w-5 h-5 bg-red-500 rounded-full shadow-red-glow animate-blink"></div>
+                </div>
+
+                <!-- Track y circuito -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-4 w-2/3">
+                        <div id="track_circuit" class="border-t-4 border-r-4 border-gray-400 rounded-tr-2xl p-2"></div>
+                        <div
+                            class="flex items-center space-x-4 border-t-4 border-gray-400 text-[30px] w-5/6 -mt-10"
+                        >
+                            <h3
+                                id="last-circuit-country"
+                                class="font-bold uppercase"
+                            >
+                            </h3>
+                            <p class="font-semibold">2024</p>
+                            <i class="fas fa-chevron-right text-red"></i>
+                        </div>
+                    </div>
+                    <div class="w-1/3">
+                        <div class="flex items-center space-x-4 p-2  rounded-lg bg-gray-600">
+                            <div class="rounded-lg">
+                                <span class="ml-auto bg-gray-200 rounded-full px-6 mr-3">
+                                    LAP
+                                </span>
+                                <div class="text-white flex items-center space-x-1">
+                                    <span class="text-4xl font-semibold">0</span>
+                                    <span class="text-sm font-semibold">/ 78</span>
+                                </div>
+                            </div>
+                            <div class="h-auto">
+                                <div class="" id="preview-list">
+                                    <ul id="preview-list"></ul>
+                                </div>
+                            </div>
+                        </div>     
+                    </div>
+                </div>
+
+                <!-- Tipo de carrera y nombre de circuito -->
+                <div>
+                    <h3
+                        id="last-circuit-type"
+                        class="text-[40px] font-bold uppercase"
+                    >
+                    </h3>
+                    <a
+                        id="last-circuit-name"
+                        class="rounded uppercase text-lg
+                    font-light py-2"
+                        href="#"></a>
+                    <div class="py-2 border-t-4 border-r-4 rounded-tr-2xl border-gray-400 w-2/3"></div>
+                </div>
+            </div>
+        </header>
+        <div class="flex justify-center items-center">
+            <div class="bg-gray-800 p-3 rounded-lg w-2/3">
+                <ul>
+                    <li
+                        class="flex justify-between items-center py-3 px-4 mb-0.5 rounded-lg bg-gray-700 text-white"
+                    >
+                        <div>
+                            <strong class="font-light">#</strong>
+                        </div>
+                        <div class="w-1 h-3 mx-2 bg-${teamName}"></div>
+                        <div>
+                            <span class="font-light">PILOTO</span>
+                        </div>
+                        <div class="ml-auto py-1 px-2">
+                            <span class="font-light">GAP</span>
+                        </div>
+                        <div class="px-2">
+                            <span class="font-light">PIT</span>
+                        </div>
+                    </li>
+                </ul>
+                <ul id="last-race"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "fea700892e614ca1790bf55aedcb7bfc";
+        fetch(`https://v1.formula-1.api-sports.io/rankings/races?race=1892`, {
+            method: "GET",
+            headers: {
+                "x-rapidapi-host": "v1.formula-1.api-sports.io",
+                "x-rapidapi-key": API_KEY,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Obtén la lista de pilotos del objeto JSON
+                const results = data.response;
+
+                // Mapea los datos para obtener la posición y el nombre de cada piloto
+                const resultList = results.map((result) => {
+                    // Cambiar el nombre del equipo según tus requisitos
+                    let teamName = result.team.name;
+                    if (teamName === "Red Bull Racing") {
+                        teamName = "redbull";
+                    } else if (teamName === "Scuderia Ferrari") {
+                        teamName = "ferrari";
+                    } else if (teamName === "McLaren Racing") {
+                        teamName = "mclaren";
+                    } else if (teamName === "Mercedes-AMG Petronas") {
+                        teamName = "mercedes";
+                    } else if (teamName === "Aston Martin F1 Team") {
+                        teamName = "astonmartin";
+                    } else if (teamName === "Haas F1 Team") {
+                        teamName = "haas";
+                    } else if (
+                        teamName === "Visa Cash App RB Formula One Team"
+                    ) {
+                        teamName = "rb";
+                    } else if (teamName === "Alpine F1 Team") {
+                        teamName = "alpine";
+                    } else if (teamName === "Williams F1 Team") {
+                        teamName = "williams";
+                    } else if (teamName === "Stake F1 Team Kick Sauber") {
+                        teamName = "sauber";
+                    }
+
+                    return `
+                        <li class="flex justify-between items-center py-3 px-4 mb-0.5 rounded-lg bg-white hover:bg-gray-800 hover:text-white">
+                            <div>
+                                <strong>${result.position}</strong> 
+                            </div>
+                            <div class="w-1 h-3 mx-2 bg-${teamName}"></div>
+                                <div>
+                                    <strong>${result.driver.name}</strong> | <span class="font-light">${result.team.name}</span>
+                                </div>
+                            <div class="ml-auto bg-gray-200 rounded-full py-1 px-2 mr-3">
+                                ${result.time}
+                            </div>
+                            <div class="px-2">
+                                <span class="font-light">${result.pits}</span>
+                            </div>
+                        </li>`;
+                });
+                // Actualiza el contenido de un elemento en tu HTML con la lista de pilotos
+                const resultsListElement = document.getElementById("last-race");
+                resultsListElement.innerHTML = `<ul>${resultList.join("")}</ul>`;
+
+                const maxItems = 3; // Número máximo de elementos a mostrar
+
+                const previewList = results.slice(0, maxItems).map((result) => {
+                    return `
+                        <li class="flex justify-between items-center px-2 py-1 mb-0.5 rounded-lg bg-gray-700 text-white">
+                            <div>
+                                <strong>${result.position}</strong> 
+                            </div>
+                            <div class="mx-3 mr-20">
+                                | <strong>${result.driver.name}</strong>
+                            </div>
+                            <div class="ml-auto bg-gray-200 rounded-full px-2 text-black">
+                                ${result.time}
+                            </div>
+                        </li>`;
+                }).join('');
+
+                    // Asegúrate de tener un contenedor en tu HTML para la lista
+                    document.querySelector('#preview-list').innerHTML = `<ul>${previewList}</ul>`;
+            })
+            .catch((error) => console.log("Error al obtener datos:", error));
+
+        fetch(`https://v1.formula-1.api-sports.io/races?last=1&season=2024`, {
+            method: "GET",
+            headers: {
+                "x-rapidapi-host": "v1.formula-1.api-sports.io",
+                "x-rapidapi-key": API_KEY,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                const lasts_circuit = data.response;
+
+                const lastCircuitCountry = lasts_circuit.map((last_circuit) => {
+                    return `${last_circuit.competition.location.country}`;
+                });
+
+                const lastes_circuitElement = document.getElementById(
+                    "last-circuit-country",
+                );
+                lastes_circuitElement.innerHTML = `${lastCircuitCountry.join("")}`;
+
+                const lastCircuitType = lasts_circuit.map((last_circuit) => {
+                    return `${last_circuit.type}`;
+                });
+
+                const lastes_typeElement =
+                    document.getElementById("last-circuit-type");
+                lastes_typeElement.innerHTML = `${lastCircuitType.join("")}`;
+
+                const lastCircuitName = lasts_circuit.map((last_circuit) => {
+                    return `${last_circuit.circuit.name}`;
+                });
+
+                const lastes_circuit_nameElement =
+                    document.getElementById("last-circuit-name");
+                lastes_circuit_nameElement.innerHTML = `${lastCircuitName.join("")}`;
+
+                const lastes_circuit_trackElement =
+                    document.getElementById("track_circuit");
+                lastes_circuit_trackElement.innerHTML = `<img src="/tracks/${lastCircuitName.join("")}.png" alt="Imagen del circuito" class="w-24">`;
+            })
+            .catch((error) => console.log("Error al obtener datos:", error));
+
+        // Obtener la hora actual
+        const now = new Date();
+
+        // Convertir la hora actual al formato ISO 8601
+        const isoString = now.toISOString();
+
+    </script>
+</section>

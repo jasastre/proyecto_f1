@@ -15,7 +15,19 @@ export default {
 				'williams': '#63c4ff',
 				'alpine': '#015da8',
 				'sauber': '#81d285',
-			}
+			},
+			keyframes:{
+				blink:{
+					'0%, 100%': {opacity: '1'},
+					'50%': {opacity: '0.1'},
+				},
+			},
+			animation:{
+				blink: 'blink 1s infinite',
+			},
+			boxShadow:{
+				'red-glow': '0 0 20px red'
+			},
 		},
 		backgroundImage: theme => ({
 			'bg-standings': "url('/bg-standings.jpg')",
