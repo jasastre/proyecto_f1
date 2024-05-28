@@ -3,6 +3,10 @@ import $ from 'jquery';
 import Layout from "../layouts/Layout.astro";
 import LandingHeader from "../components/LandingHeader.astro";
 import TrackTimeSection from '../components/TrackTimeSection.astro';
+import { getSession } from "auth-astro/server";
+
+const session = await getSession(Astro.request);
+console.log(session);
 
 ---
 
@@ -11,7 +15,15 @@ import TrackTimeSection from '../components/TrackTimeSection.astro';
 
 	<main class="snap-y snap-mandatory relative w-full h-screen overflow-auto">
 		<div class="snap-center">
-			<TrackTimeSection />
+			{
+				session?(
+					<TrackTimeSection />
+				):(
+					<script>
+						window.location.href = '/login';
+					</script>
+				)
+			}
 		</div>
 	</main>
 </Layout>

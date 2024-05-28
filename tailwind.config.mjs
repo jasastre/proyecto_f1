@@ -31,7 +31,8 @@ export default {
 		},
 		backgroundImage: theme => ({
 			'bg-standings': "url('/bg-standings.jpg')",
-			'bg-circuits': "url('/bg-circuits.jpg')"
+			'bg-circuits': "url('/bg-circuits.jpg')",
+			'bg-boxes': "url(/bg-boxes-f1.png)"
 		  }),
 	},
 	plugins: [],
